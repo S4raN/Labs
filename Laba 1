@@ -2,12 +2,12 @@
 
 int main()
 {
-int a, b, S
-printf("Введите значение a:");
-scanf("%d", &a);
-printf("Введите значение b:");
-scanf("%d", &b);
-S = a * b;
-printf(S);
+    int a, b, S;
+    printf("Введите значение a:");
+    scanf("%d", &a);
+    printf("Введите значение b:");
+    scanf("%d", &b);
+    S = a * b;
+    printf("Variable: %d * %d = %d", a , b , S);
+    return 0;
 }
-return(void)
