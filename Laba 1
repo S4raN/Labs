@@ -7,7 +7,7 @@ int main()
     scanf("%d", &a);
     printf("Введите значение b:");
     scanf("%d", &b);
-    S = a * b;
+    S = (a * b) /2;
     printf("%d", S);
     return 0;
 }
