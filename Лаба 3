@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <math.h>
+#include <iso646.h>
+
+int main(){
+    float a, b, c, x, f;
+    printf("Введите значение a:\n");
+    scanf("%f", &a);
+    printf("Введите значение b:\n");
+    scanf("%f", &b);
+    printf("Введите значение c:\n");
+    scanf("%f", &c);
+    printf("Введите значение x:\n");
+    scanf("%f", &x);
+    
+    if (x < 0 && b != 0){
+        f = a * powf(x, 2) + 2 * c * x + powf(c, 2);
+        printf("Ответ: f = %f\n", f);
+    }
+    
+    else if (x > 0 && b == 0){
+        f = (x - a) / (-c);
+        if (-c == 0)
+            printf("Ответа нет");
+        else 
+            printf("Ответ: f = %f\n", f);
+    }
+    else{
+        f = a - (x / c) + b;
+        if (c == 0)
+            printf("Ответа нет");
+        else 
+        printf("Ответ: f = %f\n", f);
+        
+    }
+    return(0);
+}
