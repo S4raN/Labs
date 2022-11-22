@@ -11,9 +11,10 @@ int main(){
     printf("Введите значение Е:");
     scanf("%f",&E);
     for(int n = 0;n>=0;n++){
-        c = (PI/2 + (pow(-1,(n+1)))/(2*n+1)*(pow(x,(2*n+1))));
+ //       c = (PI/2 + (pow(-1,(n+1)))/(2*n+1)*(pow(x,(2*n+1))));
+        c = ((PI/2)-(1/x)+(1/(3 * (pow(x,3)))-(1/(5*(pow(x,5))))));
         if((x>1) && (c<=E)){
-            printf("c = %.2f\n",c);
+            printf("c = %.3f\n",c);
             break;
         }
         if((x>1) && (c>E)){
@@ -26,7 +27,7 @@ int main(){
     }
     a = atan(x);
     if(a<=E)
-    printf("a = %2.f\n",a);
+    printf("a = %.3f\n",a);
     if(a>E)
     printf("Ошибка!\n");
     return(0);
