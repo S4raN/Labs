@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+ 
+float factorial(float j){
+    float addition = 1;int i;
+    for(i=1;i<=j;i++){
+        addition=addition*i;}
+        return addition;}
+int main(){
+    float x,eps,sum=0,n=0;
+    printf("Введите x:\n");
+    scanf("%f",&x);
+    printf("Введите eps:\n");
+    scanf("%f",&eps);
+    if(eps<=0||eps>=1){
+        printf("Введите другое eps:\n");
+        scanf("%f",&eps);}
+    else{
+        if(x!=0){
+            while(((powf(-1,n))*(powf(x,n+1)))/((n+1)*(2+n)*factorial(n))){
+                sum=sum+(((powf(-1,n))*(powf(x,n+1)))/((n+1)*(2+n)*factorial(n)));
+                n=n+1;}
+            printf("sum = %f", sum);}
+    else{
+        printf("Введите другое x:\n");
+        scanf("%f",&x);}
+    }
+}
