@@ -1,9 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstring>
+#include <math.h>
+#include <locale.h>
+#include <time.h>
+#include <ctype.h>
+#include <conio.h>
 
+/// Checking ///
+
+    int prov(void) {
+    int k = 0;
+    char c[100], p, q[100] = "";
+    do {
+    scanf("%s", c);
+    for (int i = 0; i < strlen(c); i++) {
+    p = c[i];
+    if (isdigit(p) == 0) {
+    puts("неверные данные, введите другое число:");
+    continue;
+    }
+    else
+    strncat(q, &p, 1);
+    k += 1;
+    }
+    if (k < strlen(c)) {
+    k = 0;
+    strcpy(q, "");
+    }
+    } while (k < 1);
+    int num;
+    num = atoi(q);
+    return num;
+    }
+    
 int main(){
     int max, i, n, maxi, first, last, sum, f, qu, maxqu;
-    printf("Размер массива: ");
+    int len = prov();
+    printf("Введите размер массива: ");
     scanf("%d",&n);
 
    int mass[n];
@@ -41,9 +75,9 @@ int main(){
     }
     sum = 0;
     for (int i = first; i <= last; i++){
-        sum = sum * mass[i];
+        sum = sum + mass[i];
     }
-    printf("Произведение элементов: %d\n", sum);
+    printf("Сумма элементов: %d\n", sum);
  
 /// 3 ///
  
