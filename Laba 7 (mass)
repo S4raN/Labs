@@ -5,11 +5,11 @@
 #include <locale.h>
 #include <time.h>
 #include <ctype.h>
-#include <conio.h>
+//#include <conio.h>
 
-/// Checking ///
+/// Checking 1 ///
 
-    int prov(void) {
+    int check1(void) {
     int k = 0;
     char c[100], p, q[100] = "";
     do {
@@ -33,16 +33,43 @@
     num = atoi(q);
     return num;
     }
+
+/// Checking 2 ///
+
+int check2(void) {
+    int k = 0;
+    char c[100], p, q[100] = "";
+    do {
+    scanf("%s", c);
+    for (int i = 0; i < strlen(c); i++) {
+    p = c[i];
+    if (isdigit(p) == 0 && p!= '-' && p!='.' && p!=',') {
+    puts("неверные данные, введите другое число:");
+    continue;
+    }
+    else
+    strncat(q, &p, 1);
+    k += 1;
+    }
+    if (k < strlen(c)) {
+    k = 0;
+    strcpy(q, "");
+    }
+    } while (k < 1);
+    int num;
+    num = atoi(q);
+    return num;
+    }
     
 int main(){
     int max, i, n, maxi, first, last, sum, f, qu, maxqu;
     printf("Введите размер массива: ");
-    n = prov();
+    n = check1();
     
    int mass[n];
     for(i=0; i< n; i++){
         printf("mas[%d]= ", i);
-        scanf("%d",&mass[i]);
+        mass[i]=check2();
     }
 
 /// 1 ///
@@ -58,26 +85,20 @@ int main(){
 
 /// 2 ///
 
-    first = 0;
-    for (int i = 0; i < n; i++){
-        if (mass[i] == 0){
-            first = i;
+    sum=1;
+    for(i=0;i<n;i++){
+        if(mass[i]==0 && i<n){
+            for(int j=i+1;j<n;j++){
+                if(mass[j]==0){
+                    break;
+                }
+                sum=sum*mass[j];
+            }
             break;
         }
     }
-    last = 0;
-    for (int i = n - 1; i >= 0; i--){
-        if (mass[i] == 0){
-            last = i;
-            break;
-        }
-    }
-    sum = 0;
-    for (int i = first; i <= last; i++){
-        sum = sum + mass[i];
-    }
-    printf("Сумма элементов: %d\n", sum);
- 
+    printf("Произведение равно: %d\n", sum);
+   
 /// 3 ///
  
     int mass2[n];
@@ -99,13 +120,13 @@ int main(){
 /// 4 ///
  
     maxqu=0;
-    qu=1;
+    qu=0;
     for(i=0; i<n; i++){
         if (mass[i]==0 && mass[i+1]==0){
             qu+=1;
         }
         if (qu>maxqu){
-            maxqu=qu;
+            maxqu=qu+1;
         }
     }
     printf("Длинна последовательности: %d\n",maxqu);
