@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstring>
+#include <string.h>
 #include <math.h>
 #include <locale.h>
 #include <time.h>
@@ -36,10 +36,9 @@
     
 int main(){
     int max, i, n, maxi, first, last, sum, f, qu, maxqu;
-    int len = prov();
     printf("Введите размер массива: ");
-    scanf("%d",&n);
-
+    n = prov();
+    
    int mass[n];
     for(i=0; i< n; i++){
         printf("mas[%d]= ", i);
