@@ -1,0 +1,18 @@
+#include<stdio.h>
+#include<string.h>
+#define S 30
+
+typedef struct Tele{
+    char secname[50];
+    long int year[50];
+    int nomer;}
+
+TELEPHONE;
+int main(){
+    int Summ=0, Aver=0;
+    static TELEPHONE Tele[S]={"Invoker", 2000, 89047507045};
+    static char secname[50]="\0";
+    printf("Введите фамилию абонента: ");
+    scanf("%s", &secname[S]);
+    printf(Tele[S]);
+return 0;}
