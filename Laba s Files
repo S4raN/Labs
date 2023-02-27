@@ -1,18 +1,25 @@
 #include<stdio.h>
 #include<string.h>
-#define S 30
+#define N 10
 
-typedef struct Tele{
-    char secname[50];
-    long int year[50];
-    int nomer;}
+typedef struct Subscriber{
+char secname[256];
+double registration[256];
+double number;}
+SUB;
 
-TELEPHONE;
 int main(){
-    int Summ=0, Aver=0;
-    static TELEPHONE Tele[S]={"Invoker", 2000, 89047507045};
-    static char secname[50]="\0";
-    printf("Введите фамилию абонента: ");
-    scanf("%s", &secname[S]);
-    printf(Tele[S]);
+static SUB Subscriber[N]={{"Invoker", 2000, 8904750},
+                          {"Pudge", 2001, 8800555},
+                          {"Meepo", 2002, 8495963},
+                          {"Enigma", 2003, 8495324},
+                          {"Techies", 2004, 8495358},
+                          {"Dazzle", 2005, 8495952},
+                          {"Slardar", 2006, 8495324},
+                          {"Slark", 2007, 8499193},
+                          {"Rubick", 2008, 8484636},
+                          {"Razor", 2009, 8904389}};
+//static double registration[256] = "\0";
+printf("Введите фамилию абонента: ");
+scanf("%s", &Subscriber[N]);
 return 0;}
