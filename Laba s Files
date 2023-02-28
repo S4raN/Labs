@@ -21,5 +21,10 @@ static SUB Subscriber[N]={{"Invoker", 2000, 8904750},
                           {"Razor", 2009, 8904389}};
 //static double registration[256] = "\0";
 printf("Введите фамилию абонента: ");
-scanf("%s", &Subscriber[N]);
+char str[32];
+gets(str);
+for (int i=0,i<N, i++){
+    if(strcmp(Subscriber[i].secname, str)==0){
+        printf("%d", Subscriber[i].number);
+    }}
 return 0;}
