@@ -1,0 +1,15 @@
+#include<stdio.h>
+
+int main(){
+    char stroka[100];
+    char stroka2[100];
+    int i=0, j=0;
+    printf("Введите строку:");
+    gets(stroka);
+    while(stroka[i]!='\0'){
+        if ((stroka[i]>=65&&stroka[i]<=90)|| (stroka[i]>=97&&stroka[i]<=122)){
+            stroka2[j]=stroka[i];
+            j++;}
+        i++;}
+printf("\n%s", stroka2);
+return 0;}
