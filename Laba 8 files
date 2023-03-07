@@ -4,27 +4,27 @@
 
 typedef struct Subscriber{
 char secname[256];
-double registration[256];
-double number;}
-SUB;
+int registration[256];
+int number;}
+//SUB;
 
 int main(){
-static SUB Subscriber[N]={{"Invoker", 2000, 8904750},
-                          {"Pudge", 2001, 8800555},
-                          {"Meepo", 2002, 8495963},
-                          {"Enigma", 2003, 8495324},
-                          {"Techies", 2004, 8495358},
-                          {"Dazzle", 2005, 8495952},
-                          {"Slardar", 2006, 8495324},
-                          {"Slark", 2007, 8499193},
-                          {"Rubick", 2008, 8484636},
-                          {"Razor", 2009, 8904389}};
-//static double registration[256] = "\0";
-printf("Введите фамилию абонента: ");
-char str[32];
-gets(str);
-for (int i=0,i<N, i++){
-    if(strcmp(Subscriber[i].secname, str)==0){
-        printf("%d", Subscriber[i].number);
-    }}
+static SUB Subscriber[N]={{"Invoker", 2000, 8904},
+                          {"Pudge", 2001, 8800},
+                          {"Meepo", 2002, 8495},
+                          {"Enigma", 2003, 8495},
+                          {"Techies", 2004, 8495},
+                          {"Dazzle", 2005, 8495},
+                          {"Slardar", 2006, 8495},
+                          {"Slark", 2007, 8499},
+                          {"Rubick", 2008, 8484},
+                          {"Razor", 2009, 8904}};
+char str[256];
+scanf("%s", &str);
+for(int i=0;i<N;i++){
+    if (strcmp(Subscriber[i].secname, str) == 0){
+        printf("%s %d %d", Subscriber[i].secname, Subscriber[i].registration, Subscriber[i].number);
+    }
+    
+}
 return 0;}
