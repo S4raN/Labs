@@ -4,7 +4,7 @@
 
 typedef struct Subscriber{
 char secname[32];
-int registration[32];
+int registration;
 int number;}
 SUB;
 
