@@ -3,10 +3,10 @@
 #define N 10
 
 typedef struct Subscriber{
-char secname[256];
-int registration[256];
+char secname[32];
+int registration[32];
 int number;}
-//SUB;
+SUB;
 
 int main(){
 static SUB Subscriber[N]={{"Invoker", 2000, 8904},
@@ -19,12 +19,10 @@ static SUB Subscriber[N]={{"Invoker", 2000, 8904},
                           {"Slark", 2007, 8499},
                           {"Rubick", 2008, 8484},
                           {"Razor", 2009, 8904}};
-char str[256];
+printf("Введите фамилию абонента: ");
+char str[32];
 scanf("%s", &str);
 for(int i=0;i<N;i++){
     if (strcmp(Subscriber[i].secname, str) == 0){
-        printf("%s %d %d", Subscriber[i].secname, Subscriber[i].registration, Subscriber[i].number);
-    }
-    
-}
+        printf("%s %d %d", Subscriber[i].secname, Subscriber[i].registration, Subscriber[i].number);}}
 return 0;}
