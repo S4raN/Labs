@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(){
+    char str[100], new_str[100], *token;
+    printf("Введите строку: ");
+    fgets(str, sizeof(str), stdin);
+    token = strtok(str, " ");
+
+    while (token != '\0'){
+        if (strlen(token) <= 3 || !isdigit(token[0])) {
+            strcat(new_str, token);
+            strcat(new_str, " ");}
+        token = strtok(NULL, " ");}
+    printf("Новая строка: %s\n", new_str);
+    return 0;}
