@@ -1,24 +1,10 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
-#define N 10
-
-typedef struct Subscriber{
-int number;}
-SUB;
 
 int main(){
-static SUB Subscriber[N]={{21},
-                          {8800},
-                          {2002},
-                          {3},
-                          {849},
-                          {20},
-                          {8495},
-                          {207},
-                          {84},
-                          {24}};
-char str[32];
-for(int i=0;i<N;i++){
- if (strcmp(Subscriber[i].number, str) >= 2 ){
- printf("%d", Subscriber[i].number);}}
-return 0;}
+    FILE* file=fopen("numbers", "wt");
+    if(file==NULL){
+        printf("Ошибка открытия файла \n");
+        rerurn 1;}
+    return 0;}
