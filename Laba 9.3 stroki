@@ -1,10 +1,54 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-
-int main(){
-    FILE* file=fopen("numbers", "wt");
-    if(file==NULL){
-        printf("Ошибка открытия файла \n");
-        rerurn 1;}
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <string.h> 
+ 
+typedef struct{ 
+    int number[5];}
+    Record;
+ 
+int main(){ 
+    FILE* file = fopen("numbers", "wt"); 
+    if (file == NULL) { 
+        printf("Ошибка открытия файла\n"); 
+        return 1;}
+    // записывать случайные данные в файл 
+    for (int i = 0; i < 25; i++){ 
+        Record record; 
+        record.group_index = rand() % MAX_GROUP_INDEX + 1; 
+        sprintf(record.student_name, "Mashunina %d", i+1); 
+        for (int j = 0; j < NUM_MARKS; j++){ 
+            int mark = rand() % 2; 
+            if (mark == 0){ 
+                record.marks[j] = 'H';}
+            else{ 
+                record.marks[j] = '3';}
+            
+        } 
+        fprintf(file, "%d %s %c %c %c %c %c\n", record.group_index, record.student_name, 
+                record.marks[0], record.marks[1], record.marks[2], record.marks[3], record.marks[4]); 
+    } 
+    // инициализировать массивы групп и студентов 
+    Student students[MAX_GROUPS][MAX_STUDENTS]; 
+    int num_students[MAX_GROUPS] = {0}; 
+    int num_groups = 0; 
+    // читать записи из файла и сохранять их в массивах 
+    while (num_groups < MAX_GROUPS){ 
+        int index; 
+        char name[MAX_NAME_LEN]; 
+        char marks[5]; 
+        int result = fscanf(file, "%d%s%s%s%s%s", &index, name, marks, marks+1, marks+2, marks+3); 
+        if (result == EOF) { 
+            break;}
+        else if (result != 6){ 
+            printf("Ошибка чтения строки из файла\n"); 
+            fclose(file); 
+            return 1;}
+        strcpy(students[index-1][num_students[index-1]].name, name); 
+        strcpy(students[index-1][num_students[index-1]].marks, marks); 
+        num_students[index-1]++; 
+        if (index > num_groups){ 
+            num_groups = index;} 
+    } 
+    // закрыть файл 
+    fclose(file); 
     return 0;}
