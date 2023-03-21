@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
- 
+
 int main(){
     int array[] = {15, 2, 333, 4, 52, 6, 777, 8, 99};
     size_t size = sizeof(array) / sizeof(*array);
     size_t i;
+    size_t j;
  
     FILE* f = fopen("Numbers", "w");
  
@@ -15,7 +16,12 @@ int main(){
  
     for (i = 0; i < size; ++i){
         fprintf(f, "%d\n", array[i]);}
- 
+    
+    for(j = 0;j < size; ++j){
+        if(array[j]>=9 && array[j]<=99){
+          
+        }
+    }
  
  
  
