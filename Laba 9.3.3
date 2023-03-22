@@ -1,0 +1,40 @@
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int has_two_digits(int num) {
+    return num >= 10 && num <= 99;
+}
+
+int main() {
+    FILE *fp;
+    int num, line;
+    char filename[20];
+    printf("Введите имя файла: ");
+    scanf("%s", filename);
+    fp = fopen(filename, "w");
+    srand(time(0));
+    for (line = 0; line < 10; line++) {
+        for (int i = 0; i < 5; i++) {
+            num = rand() % 90 + 10;
+            fprintf(fp, "%d ", num);
+        }
+        fprintf(fp, "\n");
+    }
+    fclose(fp);
+    fp = fopen(filename, "r");
+    while (fscanf(fp, "%d", &num) != EOF) {
+        if (has_two_digits(num)) {
+            char c;
+            do {
+                c = getc(fp);
+            } while (c != '\n' && c != EOF);
+        } else {
+            printf("%d ", num);
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+```
