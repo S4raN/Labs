@@ -28,7 +28,7 @@ int main(){
 
     while (fgets(buffer, MAX_LEN, fp)){
         /* Читаем каждую строку в файле */
-        if (has_two_digits(buffer)== 0 || strlen(buffer) < 4){
+        if (!has_two_digits(buffer)){
             /* Если в строке нет двузначных чисел, то выводим ее на экран */
             printf("%s", buffer);}}
     fclose(fp); /* Закрываем файл */
