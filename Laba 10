@@ -1,0 +1,153 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct soldier{
+    char name[50];
+    char address[200];
+    char nationality[20];
+    char birth_date[20];
+    char position[50];
+    char rank[20];};
+
+void create_struct_array(struct soldier * soldiers, int n){
+    int i;
+    for (i = 0; i < n; i++){
+        printf("Enter soldier %d's information:\n", i+1);
+        printf("Name: ");
+        scanf("%s", soldiers[i].name);
+        printf("Address (postal code, country, province, district, city, street, house, apartment, separated by commas): ");
+        getchar(); //clear input buffer
+        fgets(soldiers[i].address, 200, stdin);
+        printf("Nationality: ");
+        scanf("%s", soldiers[i].nationality);
+        printf("Birth date: ");
+        scanf("%s", soldiers[i].birth_date);
+        printf("Position: ");
+        scanf("%s", soldiers[i].position);
+        printf("Rank: ");
+        scanf("%s", soldiers[i].rank);}}
+
+void print_struct_array(struct soldier * soldiers, int n){
+    int i;
+    for (i = 0; i < n; i++){
+        printf("Soldier %d:\n", i+1);
+        printf("Name: %s\n", soldiers[i].name);
+        printf("Address: %s\n", soldiers[i].address);
+        printf("Nationality: %s\n", soldiers[i].nationality);
+        printf("Birth date: %s\n", soldiers[i].birth_date);
+        printf("Position: %s\n", soldiers[i].position);
+        printf("Rank: %s\n", soldiers[i].rank);
+        printf("\n");}}
+
+void add_struct(struct soldier * soldiers, int n){
+    printf("Enter soldier's information:\n");
+    printf("Name: ");
+    scanf("%s", soldiers[n].name);
+    printf("Address (postal code, country, province, district, city, street, house, apartment, separated by commas): ");
+    getchar(); //clear input buffer
+    fgets(soldiers[n].address, 200, stdin);
+    printf("Nationality: ");
+    scanf("%s", soldiers[n].nationality);
+    printf("Birth date: ");
+    scanf("%s", soldiers[n].birth_date);
+    printf("Position: ");
+    scanf("%s", soldiers[n].position);
+    printf("Rank: ");
+    scanf("%s", soldiers[n].rank);}
+
+void search_struct(struct soldier * soldiers, int n, char * query){
+    int i, found = 0;
+    for (i = 0; i < n; i++){
+        if (strcmp(soldiers[i].name, query) == 0 || strcmp(soldiers[i].address, query) == 0 || strcmp(soldiers[i].nationality, query) == 0 || strcmp(soldiers[i].birth_date, query) == 0 || strcmp(soldiers[i].position, query) == 0 || strcmp(soldiers[i].rank, query) == 0){
+            printf("Soldier %d:\n", i+1);
+            printf("Name: %s\n", soldiers[i].name);
+            printf("Address: %s\n", soldiers[i].address);
+            printf("Nationality: %s\n", soldiers[i].nationality);
+            printf("Birth date: %s\n", soldiers[i].birth_date);
+            printf("Position: %s\n", soldiers[i].position);
+            printf("Rank: %s\n", soldiers[i].rank);
+            printf("\n");
+            found = 1;}}
+    if (!found) {
+        printf("Soldier with %s not found.\n", query);}}
+
+void sort_struct_array(struct soldier * soldiers, int n, char key){
+    int i, j;
+    struct soldier temp;
+    for (i = 0; i < n-1; i++){
+        for (j = 0; j < n-i-1; j++){
+            switch (key){
+                case 'n':
+                    if (strcmp(soldiers[j].name, soldiers[j+1].name) > 0){
+                        temp = soldiers[j];
+                        soldiers[j] = soldiers[j+1];
+                        soldiers[j+1] = temp;}
+                    break;
+                case 'a':
+                    if (strcmp(soldiers[j].address, soldiers[j+1].address) > 0){
+                        temp = soldiers[j];
+                        soldiers[j] = soldiers[j+1];
+                        soldiers[j+1] = temp;}
+                    break;
+                case 'p':
+                    if (strcmp(soldiers[j].position, soldiers[j+1].position) > 0){
+                        temp = soldiers[j];
+                        soldiers[j] = soldiers[j+1];
+                        soldiers[j+1] = temp;}
+                    break;
+                case 'r':
+                    if (strcmp(soldiers[j].rank, soldiers[j+1].rank) > 0){
+                        temp = soldiers[j];
+                        soldiers[j] = soldiers[j+1];
+                        soldiers[j+1] = temp;}
+                    break;
+                default:
+                    printf("Invalid key.\n");
+                    return;}}}}
+
+int main(){
+    int n, option, num, i;
+    char key, query[50];
+    struct soldier * soldiers;
+    printf("How many soldiers? ");
+    scanf("%d", &n);
+    soldiers = (struct soldier *) malloc(n * sizeof(struct soldier));
+    create_struct_array(soldiers, n);
+    while (1){
+        printf("Enter option:\n");
+        printf("1. Print soldier list.\n");
+        printf("2. Add soldier.\n");
+        printf("3. Search soldier.\n");
+        printf("4. Sort soldier list.\n");
+        printf("5. Exit.\n");
+        scanf("%d", &option);
+        switch (option){
+            case 1:
+                print_struct_array(soldiers, n);
+                break;
+            case 2:
+                n++;
+                soldiers = (struct soldier *) realloc(soldiers, n * sizeof(struct soldier));
+                add_struct(soldiers, n-1);
+                break;
+            case 3:
+                printf("Enter query: ");
+                scanf("%s", query);
+                search_struct(soldiers, n, query);
+                break;
+            case 4:
+                printf("Sort by:\n");
+                printf("n - name\na - address\np - position\nr - rank\n");
+                scanf(" %c", &key);
+                sort_struct_array(soldiers, n, key);
+                printf("Sorted soldier list:\n");
+                print_struct_array(soldiers, n);
+                break;
+            case 5:
+                free(soldiers);
+                exit(0);
+            default:
+                printf("Invalid option.\n");
+                break;}}
+    return 0;}
