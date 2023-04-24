@@ -1,1 +1,75 @@
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
 
+using namespace std;
+
+// Функция для выделения памяти под двумерный массив размера n x m
+int** form_mas(int n, int m){
+    int** mas = new int*[n];
+    for(int i = 0; i < n; ++i)
+        mas[i] = new int[m];
+    return mas;}
+
+// Функция для заполнения двумерного массива случайными числами в интервале от 0 до 9
+void init_mas(int** mas, int n, int m){
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < m; j++)
+            mas[i][j] = rand() % 9 + 0;}
+
+// Функция для вывода двумерного массива на экран в виде таблицы
+void print_mas(int** mas, int n, int m){
+    cout << "    ";
+    for(int j = 0; j < m; j++)
+        cout << setw(3) << j+1 << " ";
+    cout << endl;
+
+    for(int i = 0; i < n; i++) {
+        cout << setw(3) << i+1 << " ";
+        for(int j = 0; j < m; j++)
+            cout << setw(3) << mas[i][j] << " ";
+        cout << endl;}}
+
+// Функция для удаления всех строк, содержащих хотя бы один нулевой элемент
+void delete_rows(int**& mas, int& n, int m){
+    int num_zeros;
+    for(int i = 0; i < n;){
+        num_zeros = 0;
+        for(int j = 0; j < m; j++)
+            if(mas[i][j] == 0){
+                num_zeros++;
+                break;}
+        if(num_zeros > 0){ // если есть хотя бы один нулевой элемент
+            for(int k = i; k < n - 1; k++)
+                for(int l = 0; l < m; l++)
+                    mas[k][l] = mas[k+1][l];
+            n--;}
+        else
+            i++;}}
+
+int main(){
+    int n, m;
+    cout << "Enter n: ";
+    cin >> n;
+
+    cout << "Enter m: ";
+    cin >> m;
+
+    int** mas = form_mas(n, m);
+
+    srand(time(NULL));
+    init_mas(mas, n, m);
+
+    cout << "Initial matrix:" << endl;
+    print_mas(mas, n, m);
+
+    delete_rows(mas, n, m);
+
+    cout << endl << "Modified matrix:" << endl;
+    print_mas(mas, n, m);
+
+    // Освобождение памяти
+    for(int i = 0; i < n; ++i)
+        delete [] mas[i];
+    delete [] mas;
+    return 0;}
