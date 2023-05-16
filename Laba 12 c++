@@ -1,0 +1,126 @@
+#include <iostream>
+using namespace std;
+
+class Vector {
+private:
+    int *data; // хранит элементы массива
+    int size;  // размер массива
+    int low, high; // нижняя и верхняя границы индексов
+
+public:
+    Vector(int low = 0, int high = 0); // конструктор с параметрами
+    Vector(const Vector& other); // конструктор копирования
+    ~Vector(); // деструктор
+
+    int& operator[](int index); // оператор индексации
+    const int& operator[](int index) const; // константный оператор индексации
+
+    Vector operator+(const Vector& other); // оператор сложения векторов
+    Vector operator-(const Vector& other); // оператор вычитания векторов
+
+    void print() const; // вывод на экран всего массива
+    void print(int index) const;}; // вывод на экран элемента массива по индексу
+
+Vector::Vector(int low, int high){
+    this->low = low;
+    this->high = high;
+    this->size = high - low + 1;
+    this->data = new int[size];}
+
+Vector::Vector(const Vector& other){
+    this->low = other.low;
+    this->high = other.high;
+    this->size = other.size;
+    this->data = new int[size];
+    for (int i = 0; i < size; i++){
+        data[i] = other.data[i];}}
+
+Vector::~Vector(){
+    delete[] data;}
+
+int& Vector::operator[](int index){
+    if (index < low || index > high){
+        // если выход за границы массива, выводим сообщение об ошибке
+        cout << "Index out of range!" << endl;
+        return data[low];} // возвращаем элемент с нижней границы
+    return data[index - low];}
+
+const int& Vector::operator[](int index) const{
+    if (index < low || index > high){
+        cout << "Index out of range!" << endl;
+        return data[low];}
+    return data[index - low];}
+
+Vector Vector::operator+(const Vector& other){
+    int newLow = min(low, other.low);
+    int newHigh = max(high, other.high);
+    Vector result(newLow, newHigh);
+    for (int i = newLow; i <= newHigh; i++){
+        result[i] = (*this)[i] + other[i];}
+
+    return result;}
+
+Vector Vector::operator-(const Vector& other){
+    int newLow = min(low, other.low);
+    int newHigh = max(high, other.high);
+    Vector result(newLow, newHigh);
+    for (int i = newLow; i <= newHigh; i++){
+        result[i] = (*this)[i] - other[i];}
+    return result;}
+
+void Vector::print() const{
+    for (int i = low; i <= high; i++){
+        cout << (*this)[i] << " ";}
+    cout << endl;}
+
+void Vector::print(int index) const{
+    cout << (*this)[index] << endl;}
+
+int main(){
+    Vector v1(-1, 5); // создаем вектор с границами индексов от -1 до 5
+    cout << "Enter elements of vector v1: ";
+    for (int i = -1; i <= 5; i++){
+        cin >> v1[i];}
+
+    int choice;
+    do{
+        cout << "Choose an option:\n";
+        cout << "1. Print vector\n";
+        cout << "2. Print element\n";
+        cout << "3. Add vectors\n";
+        cout << "4. Subtract vectors\n";
+        cout << "5. Exit\n";
+        cin >> choice;
+
+        switch (choice){
+            case 1: {
+                v1.print();
+                break;}
+            case 2:{
+                int index;
+                cout << "Enter index: ";
+                cin >> index;
+                v1.print(index);
+                break;}
+            case 3:{
+                Vector v2(-2, 4);
+                cout << "Enter elements of vector v2: ";
+                for (int i = -2; i <= 4; i++){
+                    cin >> v2[i];}
+                Vector sum = v1 + v2;
+                cout << "Sum of vectors:\n";
+                sum.print();
+                break;}
+            case 4:{
+                Vector v2(-2, 4);
+                cout << "Enter elements of vector v2: ";
+                for (int i = -2; i <= 4; i++){
+                    cin >> v2[i];}
+                Vector diff = v1 - v2;
+                cout << "Difference of vectors:\n";
+                diff.print();
+                break;}
+            default:{
+                break;}}}
+     while (choice != 5);
+    return 0;}
