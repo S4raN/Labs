@@ -1,0 +1,169 @@
+#include <iostream>
+
+using namespace std;
+
+class IntArray {
+
+private:
+
+  int* array; // Указатель на массив целых чисел
+
+  int size;   // Размер массива
+
+public:
+
+  IntArray(int s = 10) {  // Конструктор класса
+
+    size = s;
+
+    array = new int[size];
+
+    cout << "Конструктор вызван\n";
+
+  }
+
+  ~IntArray() {   // Деструктор класса
+
+    delete[] array;
+
+    cout << "Деструктор вызван\n";
+
+  }
+
+  int& operator[](int index) { // Оператор индексации для доступа к элементу массива
+
+    if(index < 0 || index >= size) {
+
+      cout << "Ошибка: выход за пределы массива\n";
+
+      exit(1);
+
+    }
+
+    return array[index];
+
+  }
+
+  void print_element(int index) const { // Метод вывода на экран элемента массива по заданному индексу
+
+    if(index < 0 || index >= size) {
+
+      cout << "Ошибка: выход за пределы массива\n";
+
+      exit(1);
+
+    }
+
+    cout << "Элемент массива с индексом " << index << " равен " << array[index] << "\n";
+
+  }
+
+  void print_array() const { // Метод вывода на экран всего массива
+
+    cout << "Массив:\n";
+
+    for(int i = 0; i < size; i++) {
+
+      cout << array[i] << " ";
+
+    }
+
+    cout << "\n";
+
+  }
+
+  IntArray operator+(const IntArray& other) const { // Оператор сложения массивов
+
+    if(size != other.size) {
+
+      cout << "Ошибка: массивы должны быть одинаковой длины\n";
+
+      exit(1);
+
+    }
+
+    IntArray result(size);
+
+    for(int i = 0; i < size; i++) {
+
+      result[i] = array[i] + other.array[i];
+
+    }
+
+    return result;
+
+  }
+
+  IntArray operator-(const IntArray& other) const { // Оператор вычитания массивов
+
+    if(size != other.size) {
+
+      cout << "Ошибка: массивы должны быть одинаковой длины\n";
+
+      exit(1);
+
+    }
+
+    IntArray result(size);
+
+    for(int i = 0; i < size; i++) {
+
+      result[i] = array[i] - other.array[i];
+
+    }
+
+    return result;
+
+  }
+
+};
+
+int main() {
+
+  int size;
+
+  cout << "Введите размер массива: ";
+
+  cin >> size;
+
+  IntArray a(size);
+
+  for(int i = 0; i < size; i++) {
+
+    cout << "Введите элемент массива с индексом " << i << ": ";
+
+    cin >> a[i];
+
+  }
+
+  a.print_array();
+
+  int index;
+
+  cout << "Введите индекс элемента, который вы хотите вывести: ";
+
+  cin >> index;
+
+  a.print_element(index);
+
+  IntArray b(size);
+
+  for(int i = 0; i < size; i++) {
+
+    cout << "Введите элемент другого массива с индексом " << i << ": ";
+
+    cin >> b[i];
+
+  }
+
+  cout << "Сложение двух массивов:\n";
+
+  (a + b).print_array();
+
+  cout << "Вычитание двух массивов:\n";
+
+  (a - b).print_array();
+
+  return 0;
+
+}
