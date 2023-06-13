@@ -1,0 +1,140 @@
+// Задание лабораторной работы 6 - Наследование
+// Пример: кадры (имя, ...), рабочий (специальность, цех, подразделение, ...), администрация (должность, ..)
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Базовый класс - кадры
+class Employ {
+protected:
+    string name; // имя
+    int age; // возраст    
+public:
+    Employ() // конструктор по умолчанию
+    {
+        name = "";
+        age = 0;
+    }
+
+    Employ(string n, int a) // конструктор с параметрами
+    {
+        name = n;
+        age = a;
+    }
+
+    virtual void show() // виртуальный метод "показать информацию" об объекте
+    {
+        cout << "Имя: " << name << endl;
+        cout << "Возраст: " << age << endl;
+    }
+
+    void get() // метод для ввода данных
+    {
+        cout << "Введите имя: ";
+        cin >> name;
+        cout << "Введите возраст: ";
+        cin >> age;
+    }
+
+    void set(string n, int a) // метод для установки значений
+    {
+        name = n;
+        age = a;
+    }
+};
+
+// Производный класс - рабочий
+class Worker : public Employ {
+protected:
+    string specialty; // специальность
+    string shop; // цех
+    string subdivision; // подразделение       
+public:
+    Worker() // конструктор по умолчанию
+    {
+        specialty = "";
+        shop = "";
+        subdivision = "";
+    }
+
+    Worker(string n, int a, string s, string sh, string sd) : Employ(n, a) // конструктор с параметрами
+    {
+        specialty = s;
+        shop = sh;
+        subdivision = sd;
+    }
+
+    virtual void show() // переопределение метода базового класса "показать информацию" об объекте
+    {
+        cout << "Имя: " << name << endl;
+        cout << "Возраст: " << age << endl;
+        cout << "Специальность: " << specialty << endl;
+        cout << "Цех: " << shop << endl;
+        cout << "Подразделение: " << subdivision << endl;
+    }
+
+    void get() // метод для ввода данных
+    {
+        Employ::get(); // вызываем метод get() базового класса
+        cout << "Введите специальность: ";
+        cin >> specialty;
+        cout << "Введите цех: ";
+        cin >> shop;
+        cout << "Введите подразделение: ";
+        cin >> subdivision;
+    }
+};
+
+// Производный класс - администрация
+class Administration : public Employ {
+protected:
+    string position; // должность
+public:
+    Administration() // конструктор по умолчанию
+    {
+        position = "";
+    }
+
+    Administration(string n, int a, string p) : Employ(n, a) // конструктор с параметрами
+    {
+        position = p;
+    }
+
+    virtual void show() // переопределение метода базового класса "показать информацию" об объекте
+    {
+        cout << "Имя: " << name << endl;
+        cout << "Возраст: " << age << endl;
+        cout << "Должность: " << position << endl;
+    }
+
+    void get() // метод для ввода данных
+    {
+        Employ::get(); // вызываем метод get() базового класса
+        cout << "Введите должность: ";
+        cin >> position;
+    }
+};
+
+int main() {
+    // Создаем массив указателей на объекты базового класса и заполняем указателями на объекты производных классов
+    Employ *employees[4];
+    employees[0] = new Employ("Иван Иванов", 25);
+    employees[1] = new Worker("Петр Петров", 32, "сварщик", "цех №2", "отдел сварки");
+    employees[2] = new Administration("Александр Александров", 40, "директор");
+    employees[3] = new Worker("Сергей Сергеев", 28, "электрик", "цех №1", "отдел электроники");
+
+    // Вызываем метод show() базового класса и просматриваем массив объектов
+    for (int i = 0; i < 4; i++) {
+        employees[i]->show();
+        cout << "----------------------" << endl;
+    }
+
+    // Освобождаем динамически выделенную память
+    for (int i = 0; i < 4; i++) {
+        delete employees[i];
+    }
+
+    return 0;
+}
