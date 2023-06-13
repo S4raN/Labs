@@ -165,14 +165,21 @@ main.cpp
 
 #include "IntArray.h"
 #include <iostream>
+#include <cstring>
 
 int main() {
+  setlocale(LC_ALL,"RUS");
   int size;
   std::cout << "Введите размер массива: ";
   std::cin >> size;
+  while(std::cin.fail()|| size<= 0){
+    std::cout <<"Ошибка, введите натуральное число!\n";
+    std::cin.clear();
+    std::cin.ignore(256,'\n');
+    std::cin>>size;
+  }
   IntArray a(size);
   std::cin >> a;
-
   std::cout << a;
 
   int index;
