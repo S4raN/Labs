@@ -1,0 +1,263 @@
+Файл соответствующего класса IntArray.h:
+
+```c++
+#ifndef INTARRAY_H
+#define INTARRAY_H
+
+#include <iostream>
+
+class IntArray {
+private:
+  int* array; // Указатель на массив целых чисел
+  int size;   // Размер массива
+public:
+  // Конструктор и деструктор класса
+  IntArray(int s = 10);
+  ~IntArray();
+
+  // Оператор индексации для доступа к элементу массива
+  int& operator[](int index);
+  // Метод вывода на экран элемента массива по заданному индексу
+  void print_element(int index) const;
+  // Метод вывода на экран всего массива
+  void print_array() const;
+  
+  // Операторы математических операций с массивами
+  IntArray operator+(const IntArray& other) const;
+  IntArray operator-(const IntArray& other) const;
+  IntArray operator*(double num) const;
+
+  // Операторы присваивания
+  IntArray& operator=(const IntArray& other);
+  IntArray& operator+=(const IntArray& other);
+  IntArray& operator-=(const IntArray& other);
+  IntArray& operator*=(double num);
+
+  // Оператор сравнения массивов
+  bool operator==(const IntArray& other) const;
+};
+
+// Оператор вывода на экран информации об экземпляре класса
+std::ostream& operator<<(std::ostream& out, const IntArray& array);
+
+// Оператор ввода экземпляра класса с клавиатуры
+std::istream& operator>>(std::istream& in, IntArray& array);
+
+#endif //INTARRAY_H
+```
+
+Файл реализации IntArray.cpp:
+
+```c++
+#include "IntArray.h"
+#include <iostream>
+#include <cstdlib>
+
+// Конструктор класса
+IntArray::IntArray(int s) {
+  size = s;
+  array = new int[size];
+  std::cout << "Конструктор вызван\n";
+}
+
+// Деструктор класса
+IntArray::~IntArray() {
+  delete[] array;
+  std::cout << "Деструктор вызван\n";
+}
+
+// Оператор индексации для доступа к элементу массива
+int& IntArray::operator[](int index) {
+  if(index < 0 || index >= size) {
+    std::cout << "Ошибка: выход за пределы массива\n";
+    exit(1);
+  }
+  return array[index];
+}
+
+// Метод вывода на экран элемента массива по заданному индексу
+void IntArray::print_element(int index) const {
+  if(index < 0 || index >= size) {
+    std::cout << "Ошибка: выход за пределы массива\n";
+    exit(1);
+  }
+  std::cout << "Элемент массива с индексом " << index << " равен " << array[index] << "\n";
+}
+
+// Метод вывода на экран всего массива
+void IntArray::print_array() const {
+  std::cout << "Массив:\n";
+  for(int i = 0; i < size; i++) {
+    std::cout << array[i] << " ";
+  }
+  std::cout << "\n";
+}
+
+// Операторы математических операций с массивами
+IntArray IntArray::operator+(const IntArray& other) const {
+  if(size != other.size) {
+    std::cout << "Ошибка: массивы должны быть одинаковой длины\n";
+    exit(1);
+  }
+  IntArray result(size);
+  for(int i = 0; i < size; i++) {
+    result[i] = array[i] + other.array[i];
+  }
+  return result;
+}
+
+IntArray IntArray::operator-(const IntArray& other) const {
+  if(size != other.size) {
+    std::cout << "Ошибка: массивы должны быть одинаковой длины\n";
+    exit(1);
+  }
+  IntArray result(size);
+  for(int i = 0; i < size; i++) {
+    result[i] = array[i] - other.array[i];
+  }
+  return result;
+}
+
+IntArray IntArray::operator*(double num) const {
+  IntArray result(size);
+  for(int i = 0; i < size; i++) {
+    result[i] = array[i] * num;
+  }
+  return result;
+}
+
+// Оператор присваивания
+IntArray& IntArray::operator=(const IntArray& other) {
+  if(this != &other) {
+    delete[] array;
+    size = other.size;
+    array = new int[size];
+    for(int i = 0; i < size; i++) {
+      array[i] = other.array[i];
+    }
+  }
+  return *this;
+}
+
+IntArray& IntArray::operator+=(const IntArray& other) {
+  if(size != other.size) {
+    std::cout << "Ошибка: массивы должны быть одинаковой длины\n";
+    exit(1);
+  }
+  for(int i = 0; i < size; i++) {
+    array[i] += other.array[i];
+  }
+  return *this;
+}
+
+IntArray& IntArray::operator-=(const IntArray& other) {
+  if(size != other.size) {
+    std::cout << "Ошибка: массивы должны быть одинаковой длины\n";
+    exit(1);
+  }
+  for(int i = 0; i < size; i++) {
+    array[i] -= other.array[i];
+  }
+  return *this;
+}
+
+IntArray& IntArray::operator*=(double num) {
+  for(int i = 0; i < size; i++) {
+    array[i] *= num;
+  }
+  return *this;
+}
+
+// Оператор сравнения массивов
+bool IntArray::operator==(const IntArray& other) const {
+  if(size != other.size) {
+    return false;
+  }
+  for(int i = 0; i < size; i++) {
+    if(array[i] != other.array[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// Оператор вывода на экран информации об экземпляре класса
+std::ostream& operator<<(std::ostream& out, const IntArray& array) {
+  out << "Массив:\n";
+  for(int i = 0; i < array.size; i++) {
+    out << array[i] << " ";
+  }
+  out << "\n";
+  return out;
+}
+
+// Оператор ввода экземпляра класса с клавиатуры
+std::istream& operator>>(std::istream& in, IntArray& array) {
+  std::cout << "Введите элементы массива:\n";
+  for(int i = 0; i < array.size; i++) {
+    std::cout << "Введите элемент массива с индексом " << i << ": ";
+    in >> array[i];
+  }
+  return in;
+}
+Файл с программой для демонстрации работы с классом (IntArrayDemo.cpp):
+#include "IntArray.h"
+#include <iostream>
+
+int main() {
+  int size;
+  std::cout << "Введите размер массива: ";
+  std::cin >> size;
+  IntArray a(size);
+  std::cin >> a;
+  std::cout << a;
+
+  int index;
+  std::cout << "Введите индекс элемента, который вы хотите вывести: ";
+  std::cin >> index;
+  a.print_element(index);
+
+  IntArray b(size);
+  std::cin >> b;
+  std::cout << "Сложение двух массивов:\n";
+  std::cout << a + b;
+  std::cout << "Вычитание двух массивов:\n";
+  std::cout << a - b;
+
+  double num;
+  std::cout << "Введите вещественное число: ";
+  std::cin >> num;
+  std::cout << "Умножение массива на вещественное число:\n";
+  std::cout << a * num;
+
+  IntArray c(size);
+  c = a;
+  std::cout << "Присваивание массивов:\n";
+  std::cout << c;
+
+  std::cout << "Проверка операторов присваивания +=, -= и *=:\n";
+  std::cout << "Первоначальный массив a:\n";
+  std::cout << a;
+  std::cout << "Массив b:\n";
+  std::cout << b;
+  a += b;
+  std::cout << "Результат a += b:\n";
+  std::cout << a;
+  a -= b;
+  std::cout << "Результат a -= b:\n";
+  std::cout << a;
+  a *= num;
+  std::cout << "Результат a *= num:\n";
+  std::cout << a;
+
+  std::cout << "Сравнение массивов a и c:\n";
+  if(a == c) {
+    std::cout << "Массивы a и c равны\n";
+  }
+  else {
+    std::cout << "Массивы a и c не равны\n";
+  }
+
+  return 0;
+}
+```
