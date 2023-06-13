@@ -1,0 +1,214 @@
+ChatGPT:
+Дополненный код с перегрузками операторов:
+
+IntArray.h
+
+#ifndef INTARRAY_H
+#define INTARRAY_H
+
+#include <iostream>
+
+class IntArray {
+private:
+  int* array; // Указатель на массив целых чисел
+  int size;   // Размер массива
+public:
+  IntArray(int s = 10); // Конструктор класса
+  ~IntArray(); // Деструктор класса
+
+  int& operator[](int index); // Оператор индексации для доступа к элементу массива
+  const int& operator[](int index) const; // Константный оператор индексации
+
+  void print_element(int index) const; // Метод вывода на экран элемента массива по заданному индексу
+  void print_array() const; // Метод вывода на экран всего массива
+
+  IntArray operator+(const IntArray& other) const; // Оператор сложения массивов
+  IntArray operator-(const IntArray& other) const; // Оператор вычитания массивов
+  IntArray& operator+=(int num); // Оператор +=
+  IntArray& operator*=(int num); // Оператор *=
+  bool operator==(const IntArray& other) const; // Оператор сравнения массивов поэлементно
+  friend IntArray operator*(const IntArray& arr, double num); // Оператор *, где число - левый операнд
+  friend IntArray operator*(double num, const IntArray& arr); // Оператор *, где число - правый операнд
+  friend std::ostream& operator<<(std::ostream& os, const IntArray& arr); // Оператор вывода на экран
+  friend std::istream& operator>>(std::istream& is, IntArray& arr); // Оператор ввода с клавиатуры
+};
+
+#endif // INTARRAY_H
+
+IntArray.cpp
+
+#include "IntArray.h"
+#include <cstdlib> // Для функции exit()
+
+IntArray::IntArray(int s) { // Конструктор класса
+  size = s;
+  array = new int[size];
+  std::cout << "Конструктор вызван\n";
+}
+
+IntArray::~IntArray() { // Деструктор класса
+  delete[] array;
+  std::cout << "Деструктор вызван\n";
+}
+
+int& IntArray::operator[](int index) { // Оператор индексации для доступа к элементу массива
+  if (index < 0 || index >= size) {
+    std::cout << "Ошибка: выход за пределы массива\n";
+    exit(1);
+  }
+  return array[index];
+}
+
+const int& IntArray::operator[](int index) const { // Константный оператор индексации
+  if (index < 0 || index >= size) {
+    std::cout << "Ошибка: выход за пределы массива\n";
+    exit(1);
+  }
+  return array[index];
+}
+
+void IntArray::print_element(int index) const { // Метод вывода на экран элемента массива по заданному индексу
+  if (index < 0 || index >= size) {
+    std::cout << "Ошибка: выход за пределы массива\n";
+    exit(1);
+  }
+  std::cout << "Элемент массива с индексом " << index << " равен " << array[index] << "\n";
+}
+
+void IntArray::print_array() const { // Метод вывода на экран всего массива
+  std::cout << "Массив:\n";
+  for (int i = 0; i < size; i++) {
+    std::cout << array[i] << " ";
+  }
+  std::cout << "\n";
+}
+
+IntArray IntArray::operator+(const IntArray& other) const { // Оператор сложения массивов
+  if (size != other.size) {
+    std::cout << "Ошибка: массивы должны быть одинаковой длины\n";
+    exit(1);
+  }
+  IntArray result(size);
+  for (int i = 0; i < size; i++) {
+    result[i] = array[i] + other.array[i];
+  }
+  return result;
+}
+
+IntArray IntArray::operator-(const IntArray& other) const { // Оператор вычитания массивов
+  if (size != other.size) {
+    std::cout << "Ошибка: массивы должны быть одинаковой длины\n";
+    exit(1);
+  }
+  IntArray result(size);
+  for (int i = 0; i < size; i++) {
+    result[i] = array[i] - other.array[i];
+  }
+  return result;
+}
+
+IntArray& IntArray::operator+=(int num) { // Оператор +=
+  for (int i = 0; i < size; i++) {
+    array[i] += num;
+  }
+  return *this;
+}
+
+IntArray& IntArray::operator*=(int num) { // Оператор *=
+  for (int i = 0; i < size; i++) {
+    array[i] *= num;
+  }
+  return *this;
+}
+
+bool IntArray::operator==(const IntArray& other) const { // Оператор сравнения массивов поэлементно
+  if (size != other.size) {
+    return false;
+  }
+  for (int i = 0; i < size; i++) {
+    if (array[i] != other.array[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+IntArray operator*(const IntArray& arr, double num) { // Оператор *, где число - левый операнд
+  IntArray result(arr.size);
+  for (int i = 0; i < arr.size; i++) {
+    result[i] = arr.array[i]
+
+* num;
+  }
+  return result;
+}
+
+IntArray operator*(double num, const IntArray& arr) { // Оператор *, где число - правый операнд
+  return arr * num;
+}
+
+std::ostream& operator<<(std::ostream& os, const IntArray& arr) { // Оператор вывода на экран
+  os << "Массив:\n";
+  for (int i = 0; i < arr.size; i++) {
+    os << arr.array[i] << " ";
+  }
+  os << "\n";
+  return os;
+}
+
+std::istream& operator>>(std::istream& is, IntArray& arr) { // Оператор ввода с клавиатуры
+  std::cout << "Введите элементы массива:\n";
+  for (int i = 0; i < arr.size; i++) {
+    is >> arr.array[i];
+  }
+  return is;
+}
+
+main.cpp
+
+#include "IntArray.h"
+#include <iostream>
+
+int main() {
+  int size;
+  std::cout << "Введите размер массива: ";
+  std::cin >> size;
+  IntArray a(size);
+  std::cin >> a;
+
+  std::cout << a;
+
+  int index;
+  std::cout << "Введите индекс элемента, который вы хотите вывести: ";
+  std::cin >> index;
+  a.print_element(index);
+
+  IntArray b(size);
+  std::cin >> b;
+
+  std::cout << "Сложение двух массивов:\n";
+  std::cout << a + b;
+
+  std::cout << "Вычитание двух массивов:\n";
+  std::cout << a - b;
+
+  std::cout << "Умножение массива на число:\n";
+  std::cout << a * 5.0;
+
+  std::cout << "Сравнение двух массивов:\n";
+  if (a == b) {
+    std::cout << "Массивы равны\n";
+  } else {
+    std::cout << "Массивы не равны\n";
+  }
+
+  std::cout << "Оператор +=:\n";
+  a += 3;
+  std::cout << a;
+
+  std::cout << "Оператор *=:\n";
+  a *= 2;
+  std::cout << a;
+
+  return 0;
+}
