@@ -1,6 +1,5 @@
 Файл соответствующего класса IntArray.h:
 
-```c++
 #ifndef INTARRAY_H
 #define INTARRAY_H
 
