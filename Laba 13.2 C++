@@ -1,6 +1,3 @@
-ChatGPT:
-Дополненный код с перегрузками операторов:
-
 IntArray.h
 
 #ifndef INTARRAY_H
