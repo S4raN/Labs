@@ -1,0 +1,98 @@
+// Файл: cadre.h
+#pragma once
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Cadre {
+protected:
+    string name;
+public:
+    Cadre(string _name = "") : name(_name) {}
+    virtual ~Cadre() {}
+    virtual void show() const { cout << "Name: " << name << "\n"; }
+    virtual void get() {
+        cout << "Enter name: ";
+        cin >> name;
+    }
+    virtual void set(const string& _name) { name = _name; }
+    virtual void work() = 0;
+    virtual void department() const = 0;
+};
+
+class Worker : public Cadre {
+protected:
+    string specialty, department, workshop;
+public:
+    Worker(string _name = "", string _specialty = "", string _department = "", string _workshop = "") : 
+        Cadre(_name), specialty(_specialty), department(_department), workshop(_workshop) {}
+    virtual ~Worker() {}
+    virtual void show() const override {
+        cout << "Name: " << name << "\nSpecialty: " << specialty << "\nDepartment: "
+             << department << "\nWorkshop: " << workshop << "\n";
+    }
+    virtual void get() override {
+        Cadre::get();
+        cout << "Enter specialty: ";
+        cin >> specialty;
+        cout << "Enter department: ";
+        cin >> department;
+        cout << "Enter workshop: ";
+        cin >> workshop;
+    }
+    virtual void set(const string& _name, const string& _specialty, 
+                     const string& _department, const string& _workshop) {
+        Cadre::set(_name);
+        specialty = _specialty;
+        department = _department;
+        workshop = _workshop;
+    }
+    virtual void work() override { cout << "Working..." << endl; }
+    virtual void department() const override { cout << "Department: " << department << endl; }
+};
+
+class Administration : public Cadre {
+protected:
+    string position;
+public:
+    Administration(string _name = "", string _position = "") : Cadre(_name), position(_position) {}
+    virtual ~Administration() {}
+    virtual void show() const override {
+        cout << "Name: " << name << "\nPosition: " << position << "\n";
+    }
+    virtual void get() override {
+        Cadre::get();
+        cout << "Enter position: ";
+        cin >> position;
+    }
+    virtual void set(const string& _name, const string& _position) {
+        Cadre::set(_name);
+        position = _position;
+    }
+    virtual void work() override { cout << "Managing..." << endl; }
+    virtual void department() const override { cout << "Administration department" << endl; }
+};
+
+// Файл: main.cpp
+#include "cadre.h"
+
+int main() {
+    Cadre* cadres[4] = { nullptr };
+    cadres[0] = new Worker("Ivan Ivanov", "Welder", "Production department", "Workshop 1");
+    cadres[1] = new Administration("Petr Petrov", "Director");
+    cadres[2] = new Worker("Sergey Smirnov", "Turner", "Production department", "Workshop 2");
+    cadres[3] = new Administration("Elena Ivanova", "Accountant");
+
+    for (int i = 0; i < 4; i++) {
+        cadres[i]->show();
+        cadres[i]->work();
+        cadres[i]->department();
+        cout << endl;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        delete cadres[i];
+    }
+
+    return 0;
+}
