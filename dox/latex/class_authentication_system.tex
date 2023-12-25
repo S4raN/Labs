@@ -1,0 +1,103 @@
+\doxysection{Authentication\+System Class Reference}
+\hypertarget{class_authentication_system}{}\label{class_authentication_system}\index{AuthenticationSystem@{AuthenticationSystem}}
+
+
+Manages user authentication and book operations.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_authentication_system_a4f6bf44f2c7ddeb1fe701c19e39049b0}{create\+Admin\+Account}} (const std\+::string \&admin\+Username, const std\+::string \&admin\+Password)
+\begin{DoxyCompactList}\small\item\em Creates an admin account. \end{DoxyCompactList}\item 
+\Hypertarget{class_authentication_system_af64baac6972c7abc860e902f0a3998b6}\label{class_authentication_system_af64baac6972c7abc860e902f0a3998b6} 
+void {\bfseries register\+User} ()
+\begin{DoxyCompactList}\small\item\em Registers a new user. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_authentication_system_a69bfd83e5ada79f9849697f88f056ba3}{login\+User}} (const std\+::string \&username, const std\+::string \&password)
+\begin{DoxyCompactList}\small\item\em Logs in a user. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_authentication_system_ac2c8ff6a8afcb9d34a5493bf257a0888}{remove\+Book}} (std\+::vector$<$ \mbox{\hyperlink{class_book}{Book}} $>$ \&books, const std\+::string \&title)
+\begin{DoxyCompactList}\small\item\em Removes a book from the collection. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_authentication_system_adf2bb662b742e155b62d4f4c1e6810cc}{add\+Book}} (std\+::vector$<$ \mbox{\hyperlink{class_book}{Book}} $>$ \&books, const \mbox{\hyperlink{class_book}{Book}} \&new\+Book)
+\begin{DoxyCompactList}\small\item\em Adds a new book to the collection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages user authentication and book operations. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_authentication_system_adf2bb662b742e155b62d4f4c1e6810cc}\label{class_authentication_system_adf2bb662b742e155b62d4f4c1e6810cc} 
+\index{AuthenticationSystem@{AuthenticationSystem}!addBook@{addBook}}
+\index{addBook@{addBook}!AuthenticationSystem@{AuthenticationSystem}}
+\doxysubsubsection{\texorpdfstring{addBook()}{addBook()}}
+{\footnotesize\ttfamily void Authentication\+System\+::add\+Book (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{class_book}{Book}} $>$ \&}]{books,  }\item[{const \mbox{\hyperlink{class_book}{Book}} \&}]{new\+Book }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Adds a new book to the collection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em books} & The collection of books. \\
+\hline
+{\em new\+Book} & The new book to be added. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_authentication_system_a4f6bf44f2c7ddeb1fe701c19e39049b0}\label{class_authentication_system_a4f6bf44f2c7ddeb1fe701c19e39049b0} 
+\index{AuthenticationSystem@{AuthenticationSystem}!createAdminAccount@{createAdminAccount}}
+\index{createAdminAccount@{createAdminAccount}!AuthenticationSystem@{AuthenticationSystem}}
+\doxysubsubsection{\texorpdfstring{createAdminAccount()}{createAdminAccount()}}
+{\footnotesize\ttfamily void Authentication\+System\+::create\+Admin\+Account (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{admin\+Username,  }\item[{const std\+::string \&}]{admin\+Password }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Creates an admin account. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em admin\+Username} & The username for the admin account. \\
+\hline
+{\em admin\+Password} & The password for the admin account. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_authentication_system_a69bfd83e5ada79f9849697f88f056ba3}\label{class_authentication_system_a69bfd83e5ada79f9849697f88f056ba3} 
+\index{AuthenticationSystem@{AuthenticationSystem}!loginUser@{loginUser}}
+\index{loginUser@{loginUser}!AuthenticationSystem@{AuthenticationSystem}}
+\doxysubsubsection{\texorpdfstring{loginUser()}{loginUser()}}
+{\footnotesize\ttfamily bool Authentication\+System\+::login\+User (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{const std\+::string \&}]{password }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Logs in a user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & The username of the user. \\
+\hline
+{\em password} & The password of the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if login is successful, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_authentication_system_ac2c8ff6a8afcb9d34a5493bf257a0888}\label{class_authentication_system_ac2c8ff6a8afcb9d34a5493bf257a0888} 
+\index{AuthenticationSystem@{AuthenticationSystem}!removeBook@{removeBook}}
+\index{removeBook@{removeBook}!AuthenticationSystem@{AuthenticationSystem}}
+\doxysubsubsection{\texorpdfstring{removeBook()}{removeBook()}}
+{\footnotesize\ttfamily void Authentication\+System\+::remove\+Book (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{class_book}{Book}} $>$ \&}]{books,  }\item[{const std\+::string \&}]{title }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes a book from the collection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em books} & The collection of books. \\
+\hline
+{\em title} & The title of the book to be removed. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+IT/\+Laba6/main.\+cpp\end{DoxyCompactItemize}
