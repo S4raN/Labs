@@ -1,0 +1,46 @@
+#include <iostream>
+
+#define n 4
+using namespace std;
+
+int y[n], x[n+1], inv_x[n+1], d[n];
+int fn(int i){
+  if ((y[i]==i || (y[i]==0 && d[i]==-1)))
+    return 1;
+  else return 0;
+}
+
+void CoutX(void){
+  for (int i=1; i<=n; i++)
+    cout << x[i] << " ";
+}
+
+int main(){
+  int i, j, pos1, pos2, val1, val2, tmp;
+  for (i=0; i<=n; i++){
+    x[i+1]=n-i;
+    inv_x[i+1]=n-i;
+    d[i]=1;
+    y[i]=0;
+  }
+while(1){
+  CoutX();
+  cout << endl;
+  for (i=n-1; i>=0&&fn(i); i--);
+  if (i==-1) break;
+  y[i]=y[i]+d[i];
+  pos1=inv_x[i+1];
+  val1=i+1;
+  pos2=pos1+d[i];
+  val2=x[pos2];
+  tmp=x[pos1];
+  x[pos1]=x[pos2];
+  x[pos2]=tmp;
+  tmp=inv_x[val1];
+  inv_x[val1]=inv_x[val2];
+  inv_x[val2]=tmp;
+  for (j=i+1; j<=n; j++)
+    d[j]=-d[j];
+}
+return 0;
+}
