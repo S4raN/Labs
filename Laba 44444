@@ -5,6 +5,12 @@
 using namespace std;
 
 void printLongestIncreasingSubsequence(const vector<int>& nums, const vector<int>& dp, int maxLength) {
+    if (maxLength == 1) {
+        // Выводим только первый элемент в случае самой длинной подпоследовательности длиной 1
+        cout << "Самая длинная строго возрастающая подпоследовательность: " << nums.front() << endl;
+        return;
+    }
+
     vector<pair<int, int>> subsequencesEnd;
     int maxDp = *max_element(dp.begin(), dp.end());
 
