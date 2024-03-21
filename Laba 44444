@@ -1,48 +1,33 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <climits>
 using namespace std;
 
 void printLongestIncreasingSubsequence(const vector<int>& nums, const vector<int>& dp, int maxLength) {
-    if (maxLength == 1) {
-        // Выводим только первый элемент в случае самой длинной подпоследовательности длиной 1
-        cout << "Самая длинная строго возрастающая подпоследовательность: " << nums.front() << endl;
-        return;
+    int lastIndex = -1;
+    for (int i = 0; i < dp.size(); ++i) {
+        if (dp[i] == maxLength) {
+            lastIndex = i;
+            break;
+        }
     }
 
-    vector<pair<int, int>> subsequencesEnd;
-    int maxDp = *max_element(dp.begin(), dp.end());
-
-    for (int i = dp.size() - 1; i >= 0; --i) {
-        if (dp[i] == maxDp) {
-            vector<int> currentSequence;
-            int currentLength = maxDp;
-            for (int j = i; j >= 0; --j) {
-                if (dp[j] == currentLength && nums[j] <= nums[i]) {
-                    currentSequence.push_back(nums[j]);
-                    currentLength--;
-                }
+    vector<int> longestSubsequence;
+    while (lastIndex != -1) {
+        longestSubsequence.push_back(nums[lastIndex]);
+        for (int i = lastIndex - 1; i >= 0; --i) {
+            if (nums[i] < nums[lastIndex] && dp[i] == dp[lastIndex] - 1) {
+                lastIndex = i;
+                break;
             }
-            reverse(currentSequence.begin(), currentSequence.end());
-            subsequencesEnd.push_back({currentSequence.front(), currentSequence.back()});
         }
-    }
-
-    // Find the subsequence with maximum first element and minimum last element
-    pair<int, int> bestSubsequenceEnd = {INT_MIN, INT_MAX};
-    for (const auto& subseqEnd : subsequencesEnd) {
-        if (subseqEnd.first > bestSubsequenceEnd.first || 
-            (subseqEnd.first == bestSubsequenceEnd.first && subseqEnd.second < bestSubsequenceEnd.second)) {
-            bestSubsequenceEnd = subseqEnd;
-        }
+        if (lastIndex == 0)
+            break;
     }
 
     cout << "Самая длинная строго возрастающая подпоследовательность: ";
-    for (int i = 0; i < nums.size(); ++i) {
-        if (nums[i] >= bestSubsequenceEnd.first && nums[i] <= bestSubsequenceEnd.second) {
-            cout << nums[i] << " ";
-        }
+    for (int i = longestSubsequence.size() - 1; i >= 0; --i) {
+        cout << longestSubsequence[i] << " ";
     }
     cout << endl;
 }
@@ -58,13 +43,8 @@ int longestIncreasingSubsequence(const vector<int>& nums){
         }
     }
 
-    printLongestIncreasingSubsequence(nums, dp, *max_element(dp.begin(), dp.end()));
-
-    int maxLength = 0;
-    for (int i = 0; i < n; ++i){
-        if (dp[i] > maxLength)
-            maxLength = dp[i];
-    }
+    int maxLength = *max_element(dp.begin(), dp.end());
+    printLongestIncreasingSubsequence(nums, dp, maxLength);
 
     return maxLength;
 }
