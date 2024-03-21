@@ -4,31 +4,34 @@
 using namespace std;
 
 void printLongestIncreasingSubsequence(const vector<int>& nums, const vector<int>& dp, int maxLength) {
-    vector<vector<int>> allSubsequences;
+    vector<int> endIndices;
     int maxDp = *max_element(dp.begin(), dp.end());
 
     for (int i = dp.size() - 1; i >= 0; --i) {
         if (dp[i] == maxDp) {
-            vector<int> currentSequence;
-            int currentLength = maxDp;
-            for (int j = i; j >= 0; --j) {
-                if (dp[j] == currentLength && nums[j] <= nums[i]) {
-                    currentSequence.push_back(nums[j]);
-                    currentLength--;
-                }
-            }
-            reverse(currentSequence.begin(), currentSequence.end());
-            allSubsequences.push_back(currentSequence);
+            endIndices.push_back(i);
         }
     }
 
-    cout << "Самая длинная строго возрастающая подпоследовательность: ";
-    for (const auto& subsequence : allSubsequences) {
-        for (int num : subsequence) {
-            cout << num << " ";
+    int lastIndex = *min_element(endIndices.begin(), endIndices.end());
+    vector<int> longestSubsequence;
+    while (lastIndex != -1) {
+        longestSubsequence.push_back(nums[lastIndex]);
+        for (int i = lastIndex - 1; i >= 0; --i) {
+            if (nums[i] < nums[lastIndex] && dp[i] == dp[lastIndex] - 1) {
+                lastIndex = i;
+                break;
+            }
         }
-        cout << endl;
+        if (lastIndex == 0)
+            break;
     }
+
+    cout << "Самая длинная строго возрастающая подпоследовательность: ";
+    for (int i = longestSubsequence.size() - 1; i >= 0; --i) {
+        cout << longestSubsequence[i] << " ";
+    }
+    cout << endl;
 }
 
 int longestIncreasingSubsequence(const vector<int>& nums){
@@ -42,13 +45,8 @@ int longestIncreasingSubsequence(const vector<int>& nums){
         }
     }
 
-    printLongestIncreasingSubsequence(nums, dp, *max_element(dp.begin(), dp.end()));
-
-    int maxLength = 0;
-    for (int i = 0; i < n; ++i){
-        if (dp[i] > maxLength)
-            maxLength = dp[i];
-    }
+    int maxLength = *max_element(dp.begin(), dp.end());
+    printLongestIncreasingSubsequence(nums, dp, maxLength);
 
     return maxLength;
 }
