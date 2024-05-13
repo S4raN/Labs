@@ -1,88 +1,122 @@
-#include <stdio.h>
+#include <iostream>
+using namespace std;
+#define n 100 
+int querryX2[n];
+int querryX3[n];
+int querryX5[n];
+int firstX2;
+int firstX3;
+int firstX5;
+int dlX2;
+int dlX3;
+int dlX5;
 
-#define n 20
-
-int queue2[n];
-int queue3[n];
-int queue5[n];
-int first2 = 0, first3 = 0, first5 = 0;
-int dl2 = 0, dl3 = 0, dl5 = 0;
-
-void add(int a, int prime) {
-    switch (prime) {
-        case 2:
-            if (dl2 < n) {
-                queue2[(first2 + dl2) % n] = a;
-                dl2++;
-            }
-            break;
-        case 3:
-            if (dl3 < n) {
-                queue3[(first3 + dl3) % n] = a;
-                dl3++;
-            }
-            break;
-        case 5:
-            if (dl5 < n) {
-                queue5[(first5 + dl5) % n] = a;
-                dl5++;
-            }
-            break;
+/*int printf(int a[]) {
+    for (int i = 0; i < 10; i++) {
+        cout << a[i] << " ";
+    }
+    cout << endl;
+    return 1;
+}*/
+void addX2(int a) {
+    if (dlX2 < n) {
+        querryX2[(firstX2 + dlX2) % n] = 2 * a;
+        dlX2++;
     }
 }
-
-int del(int prime) {
-    int x = -1;
-    switch (prime) {
-        case 2:
-            if (dl2 > 0) {
-                x = queue2[first2];
-                first2 = (first2 + 1) % n;
-                dl2--;
-            }
-            break;
-        case 3:
-            if (dl3 > 0) {
-                x = queue3[first3];
-                first3 = (first3 + 1) % n;
-                dl3--;
-            }
-            break;
-        case 5:
-            if (dl5 > 0) {
-                x = queue5[first5];
-                first5 = (first5 + 1) % n;
-                dl5--;
-            }
-            break;
+void addX3(int a) {
+    if (dlX3 < n) {
+        querryX3[(firstX3 + dlX3) % n] = 3 * a;
+        dlX3++;
     }
-    return x;
 }
-
-void printSequence(int n) {
-    int num = 1;
-    printf("First %d numbers with only 2, 3, and 5 as prime factors:\n", n);
-    printf("%d ", num);
-    add(2, 2);
-    add(3, 3);
-    add(5, 5);
-
-    for (int i = 1; i < n; i++) {
-        num = del(2);
-        int num3 = del(3);
-        int num5 = del(5);
-        int min = (num < num3) ? num : num3;
-        min = (min < num5) ? min : num5;
-
-        printf("%d ", min);
-
-        add(min * 2, 2);
-        add(min * 3, 3);
-        add(min * 5, 5);
+void addX5(int a) {
+    if (dlX5 < n) {
+        querryX5[(firstX5 + dlX5) % n] = 5 * a;
+        dlX5++;
     }
+}
+int delX2(void) {
+    int x;
+
+    if (dlX2 > 0) {
+        x = querryX2[firstX2];
+       
+        firstX2 = (firstX2 + 1) % n;
+        dlX2--;
+
+        return x;
+    }
+    return(-5);
+}
+int delX3(void) {
+    int x;
+    if (dlX3 > 0) {
+        x = querryX3[firstX3];
+       
+        firstX3 = (firstX3 + 1) % n;
+        dlX3--;
+        return x;
+    }
+    return(-5);
+}
+int delX5(void) {
+    int x;
+    if (dlX5 > 0) {
+        x = querryX5[firstX5];
+       
+        firstX5 = (firstX5 + 1) % n;
+        dlX5--;
+        return x;
+    }
+    return(-5);
+}
+int Min(int querryX2[], int querryX3[], int querryX5[],int firstX2,int firstX3,int firstX5) {
+
+    if (querryX2[firstX2] < querryX3[firstX3] && querryX2[firstX2] < querryX5[firstX5]) {
+        return delX2();
+    }
+
+    if (querryX3[firstX3] < querryX2[firstX2] && querryX3[firstX3] < querryX5[firstX5]) {
+        return  delX3();
+    }
+
+    if (querryX5[firstX5] < querryX2[firstX2] && querryX5[firstX5] < querryX3[firstX3]) {
+        return delX5();
+    }
+    if (querryX2[firstX2] == querryX3[firstX3]) {
+        delX3();
+        return delX2();
+    }
+     if (querryX3[firstX3] == querryX5[firstX5]) {
+         delX5();
+        return delX3();
+    }
+    if (querryX2[firstX2] == querryX5[firstX5]) {
+        delX5();
+        return delX2();
+    }
+    return(-1000000);
 }
 
 int main() {
-    printSequence(20);
-    return 0;
+    int n1;
+    cout << "n1=";
+    cin >> n1;
+    int i = 1;
+    int count = 0;
+    while (count < n1 ) {
+        cout <<"i="<<i<<endl;
+        addX2(i);
+//        printf(querryX2);
+        addX3(i);
+  //     printf(querryX3);
+        addX5(i);
+    //   printf(querryX5);
+        i = Min(querryX2, querryX3, querryX5, firstX2, firstX3, firstX5);
+        count++;
+
+    }
+
+
 }
