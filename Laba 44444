@@ -1,68 +1,88 @@
-#include <iostream>
-#include <vector>
-#include <ctime>
-using namespace std;
+#include <stdio.h>
 
-// Функция для вывода матрицы
-void printMatrix(vector<vector<double>>& matrix) {
-    for (int i = 0; i < matrix.size(); ++i) {
-        for (int j = 0; j < matrix[i].size(); ++j) {
-            cout << matrix[i][j] << "\t";
-        }
-        cout << endl;
-    }
-}
+#define n 20
 
-// Функция для создания единичной матрицы той же размерности
-vector<vector<double>> identityMatrix(int n) {
-    vector<vector<double>> identity(n, vector<double>(n, 0));
-    for (int i = 0; i < n; ++i) {
-        identity[i][i] = 1;
-    }
-    return identity;
-}
+int queue2[n];
+int queue3[n];
+int queue5[n];
+int first2 = 0, first3 = 0, first5 = 0;
+int dl2 = 0, dl3 = 0, dl5 = 0;
 
-// Функция для нахождения обратной матрицы методом Гаусса
-vector<vector<double>> inverseMatrix(vector<vector<double>>& matrix) {
-    int n = matrix.size();
-    vector<vector<double>> identity = identityMatrix(n);
-
-    for (int i = 0; i < n; ++i) {
-        // Приводим главный элемент к 1
-        double pivot = matrix[i][i];
-        for (int j = 0; j < n; ++j) {
-            matrix[i][j] /= pivot;
-            identity[i][j] /= pivot;
-        }
-
-        // Обнуляем остальные элементы в столбце
-        for (int k = 0; k < n; ++k) {
-            if (k != i) {
-                double factor = matrix[k][i];
-                for (int j = 0; j < n; ++j) {
-                    matrix[k][j] -= factor * matrix[i][j];
-                    identity[k][j] -= factor * identity[i][j];
-                }
+void add(int a, int prime) {
+    switch (prime) {
+        case 2:
+            if (dl2 < n) {
+                queue2[(first2 + dl2) % n] = a;
+                dl2++;
             }
-        }
+            break;
+        case 3:
+            if (dl3 < n) {
+                queue3[(first3 + dl3) % n] = a;
+                dl3++;
+            }
+            break;
+        case 5:
+            if (dl5 < n) {
+                queue5[(first5 + dl5) % n] = a;
+                dl5++;
+            }
+            break;
     }
+}
 
-    return identity;
+int del(int prime) {
+    int x = -1;
+    switch (prime) {
+        case 2:
+            if (dl2 > 0) {
+                x = queue2[first2];
+                first2 = (first2 + 1) % n;
+                dl2--;
+            }
+            break;
+        case 3:
+            if (dl3 > 0) {
+                x = queue3[first3];
+                first3 = (first3 + 1) % n;
+                dl3--;
+            }
+            break;
+        case 5:
+            if (dl5 > 0) {
+                x = queue5[first5];
+                first5 = (first5 + 1) % n;
+                dl5--;
+            }
+            break;
+    }
+    return x;
+}
+
+void printSequence(int n) {
+    int num = 1;
+    printf("First %d numbers with only 2, 3, and 5 as prime factors:\n", n);
+    printf("%d ", num);
+    add(2, 2);
+    add(3, 3);
+    add(5, 5);
+
+    for (int i = 1; i < n; i++) {
+        num = del(2);
+        int num3 = del(3);
+        int num5 = del(5);
+        int min = (num < num3) ? num : num3;
+        min = (min < num5) ? min : num5;
+
+        printf("%d ", min);
+
+        add(min * 2, 2);
+        add(min * 3, 3);
+        add(min * 5, 5);
+    }
 }
 
 int main() {
-    vector<vector<double>> matrix = { {1, 0, 0},
-                                      {0, 1, 0},
-                                      {0, 0, 1}};
-
-    cout << "Original Matrix:" << endl;
-    printMatrix(matrix);
-
-    vector<vector<double>> inverse = inverseMatrix(matrix);
-
-    cout << "\nInverse Matrix:" << endl;
-    printMatrix(inverse);
-
+    printSequence(20);
     return 0;
 }
-//метод Гаусса поиска обратной матрицы
