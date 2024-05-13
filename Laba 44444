@@ -1,122 +1,84 @@
 #include <iostream>
-using namespace std;
-#define n 100 
-int querryX2[n];
-int querryX3[n];
-int querryX5[n];
-int firstX2;
-int firstX3;
-int firstX5;
-int dlX2;
-int dlX3;
-int dlX5;
 
-/*int printf(int a[]) {
-    for (int i = 0; i < 10; i++) {
-        cout << a[i] << " ";
-    }
-    cout << endl;
-    return 1;
-}*/
-void addX2(int a) {
-    if (dlX2 < n) {
-        querryX2[(firstX2 + dlX2) % n] = 2 * a;
-        dlX2++;
-    }
-}
-void addX3(int a) {
-    if (dlX3 < n) {
-        querryX3[(firstX3 + dlX3) % n] = 3 * a;
-        dlX3++;
-    }
-}
-void addX5(int a) {
-    if (dlX5 < n) {
-        querryX5[(firstX5 + dlX5) % n] = 5 * a;
-        dlX5++;
-    }
-}
-int delX2(void) {
-    int x;
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    
+    Node(int value) : data(value), left(nullptr), right(nullptr) {}
+};
 
-    if (dlX2 > 0) {
-        x = querryX2[firstX2];
-       
-        firstX2 = (firstX2 + 1) % n;
-        dlX2--;
+class BinarySearchTree {
+private:
+    Node* root;
 
-        return x;
-    }
-    return(-5);
-}
-int delX3(void) {
-    int x;
-    if (dlX3 > 0) {
-        x = querryX3[firstX3];
-       
-        firstX3 = (firstX3 + 1) % n;
-        dlX3--;
-        return x;
-    }
-    return(-5);
-}
-int delX5(void) {
-    int x;
-    if (dlX5 > 0) {
-        x = querryX5[firstX5];
-       
-        firstX5 = (firstX5 + 1) % n;
-        dlX5--;
-        return x;
-    }
-    return(-5);
-}
-int Min(int querryX2[], int querryX3[], int querryX5[],int firstX2,int firstX3,int firstX5) {
+    Node* insertRecursive(Node* root, int value) {
+        if (root == nullptr) {
+            return new Node(value);
+        }
 
-    if (querryX2[firstX2] < querryX3[firstX3] && querryX2[firstX2] < querryX5[firstX5]) {
-        return delX2();
+        if (value < root->data) {
+            root->left = insertRecursive(root->left, value);
+        } else if (value > root->data) {
+            root->right = insertRecursive(root->right, value);
+        }
+
+        return root;
     }
 
-    if (querryX3[firstX3] < querryX2[firstX2] && querryX3[firstX3] < querryX5[firstX5]) {
-        return  delX3();
+    Node* searchRecursive(Node* root, int value) {
+        if (root == nullptr || root->data == value) {
+            return root;
+        }
+
+        if (value < root->data) {
+            return searchRecursive(root->left, value);
+        }
+
+        return searchRecursive(root->right, value);
     }
 
-    if (querryX5[firstX5] < querryX2[firstX2] && querryX5[firstX5] < querryX3[firstX3]) {
-        return delX5();
+    void inorderTraversal(Node* root) {
+        if (root != nullptr) {
+            inorderTraversal(root->left);
+            std::cout << root->data << " ";
+            inorderTraversal(root->right);
+        }
     }
-    if (querryX2[firstX2] == querryX3[firstX3]) {
-        delX3();
-        return delX2();
+
+public:
+    BinarySearchTree() : root(nullptr) {}
+
+    void insert(int value) {
+        root = insertRecursive(root, value);
     }
-     if (querryX3[firstX3] == querryX5[firstX5]) {
-         delX5();
-        return delX3();
+
+    bool search(int value) {
+        return searchRecursive(root, value) != nullptr;
     }
-    if (querryX2[firstX2] == querryX5[firstX5]) {
-        delX5();
-        return delX2();
+
+    void printInorder() {
+        inorderTraversal(root);
+        std::cout << std::endl;
     }
-    return(-1000000);
-}
+};
 
 int main() {
-    int n1;
-    cout << "n1=";
-    cin >> n1;
-    int i = 1;
-    int count = 0;
-    while (count < n1 ) {
-        cout <<"i="<<i<<endl;
-        addX2(i);
-//        printf(querryX2);
-        addX3(i);
-  //     printf(querryX3);
-        addX5(i);
-    //   printf(querryX5);
-        i = Min(querryX2, querryX3, querryX5, firstX2, firstX3, firstX5);
-        count++;
+    BinarySearchTree bst;
 
-    }
+    bst.insert(50);
+    bst.insert(30);
+    bst.insert(70);
+    bst.insert(20);
+    bst.insert(40);
+    bst.insert(60);
+    bst.insert(80);
 
+    std::cout << "Inorder traversal: ";
+    bst.printInorder();
 
+    int searchValue = 40;
+    std::cout << "Is " << searchValue << " present in the tree? " << (bst.search(searchValue) ? "Yes" : "No") << std::endl;
+
+    return 0;
 }
