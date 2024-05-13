@@ -24,22 +24,6 @@ private:
         printIndented(root->left, level + 1);
     }
 
-public:
-    BinarySearchTree() : root(nullptr) {}
-
-    void insert(int value) {
-        root = insertRecursive(root, value);
-    }
-
-    bool search(int value) {
-        return searchRecursive(root, value) != nullptr;
-    }
-
-    void printIndented() {
-        printIndented(root, 0);
-    }
-
-private:
     Node* insertRecursive(Node* root, int value) {
         if (root == nullptr) {
             return new Node(value);
@@ -65,6 +49,21 @@ private:
 
         return searchRecursive(root->right, value);
     }
+
+public:
+    BinarySearchTree() : root(nullptr) {}
+
+    void insert(int value) {
+        root = insertRecursive(root, value);
+    }
+
+    bool search(int value) {
+        return searchRecursive(root, value) != nullptr;
+    }
+
+    void printIndented() {
+        printIndented(root, 0);
+    }
 };
 
 int main() {
@@ -80,6 +79,9 @@ int main() {
 
     std::cout << "Indented tree representation:" << std::endl;
     bst.printIndented();
+
+    int searchValue = 40;
+    std::cout << "Is " << searchValue << " present in the tree? " << (bst.search(searchValue) ? "Yes" : "No") << std::endl;
 
     return 0;
 }
