@@ -1,10 +1,11 @@
 #include <iostream>
+#include <queue>
 
 struct Node {
     int data;
     Node* left;
     Node* right;
-    
+
     Node(int value) : data(value), left(nullptr), right(nullptr) {}
 };
 
@@ -12,6 +13,33 @@ class BinarySearchTree {
 private:
     Node* root;
 
+    void printIndented(Node* root, int level) {
+        if (root == nullptr) return;
+
+        printIndented(root->right, level + 1);
+        for (int i = 0; i < level; ++i) {
+            std::cout << "    ";
+        }
+        std::cout << root->data << std::endl;
+        printIndented(root->left, level + 1);
+    }
+
+public:
+    BinarySearchTree() : root(nullptr) {}
+
+    void insert(int value) {
+        root = insertRecursive(root, value);
+    }
+
+    bool search(int value) {
+        return searchRecursive(root, value) != nullptr;
+    }
+
+    void printIndented() {
+        printIndented(root, 0);
+    }
+
+private:
     Node* insertRecursive(Node* root, int value) {
         if (root == nullptr) {
             return new Node(value);
@@ -37,30 +65,6 @@ private:
 
         return searchRecursive(root->right, value);
     }
-
-    void inorderTraversal(Node* root) {
-        if (root != nullptr) {
-            inorderTraversal(root->left);
-            std::cout << root->data << " ";
-            inorderTraversal(root->right);
-        }
-    }
-
-public:
-    BinarySearchTree() : root(nullptr) {}
-
-    void insert(int value) {
-        root = insertRecursive(root, value);
-    }
-
-    bool search(int value) {
-        return searchRecursive(root, value) != nullptr;
-    }
-
-    void printInorder() {
-        inorderTraversal(root);
-        std::cout << std::endl;
-    }
 };
 
 int main() {
@@ -74,11 +78,8 @@ int main() {
     bst.insert(60);
     bst.insert(80);
 
-    std::cout << "Inorder traversal: ";
-    bst.printInorder();
-
-    int searchValue = 40;
-    std::cout << "Is " << searchValue << " present in the tree? " << (bst.search(searchValue) ? "Yes" : "No") << std::endl;
+    std::cout << "Indented tree representation:" << std::endl;
+    bst.printIndented();
 
     return 0;
 }
