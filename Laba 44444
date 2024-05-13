@@ -1,56 +1,65 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+
 using namespace std;
 
+vector<int> longest(const vector<int>& A) {
+    int n = A.size();
+    vector<int> L(n, 1);
+    vector<int> N(n, -1); 
+    int maxLength = 1; 
+
+    for (int i = 1; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if (A[i] > A[j] && L[i] < L[j] + 1) {
+                L[i] = L[j] + 1;
+                N[i] = j;
+                maxLength = max(maxLength, L[i]);
+                
+             /* cout<<endl<<"L: "<<endl;
+                for(auto i:L){
+                  cout<<i<<" ";}
+              cout<<endl<<"N: "<<endl;
+              for(auto i:N){
+                cout<<i<<" ";}*/
+            }
+        }
+    }
+  
+
+    int lastIndex = -1;
+    for (int i = 0; i < n; ++i) {
+        if (L[i] == maxLength) {
+            lastIndex = i;
+            break;
+        }
+    }
+
+    vector<int> result;
+    while (lastIndex != -1) {
+        result.push_back(A[lastIndex]);
+        lastIndex = N[lastIndex];
+    }
+
+    reverse(result.begin(), result.end());
+
+    return result;
+}
+
 int main() {
-    int n, mas[500], len[500], maxlen = 0, m;
-    vector<int> subsequence;
-
-    len[0] = 1;
-    cout << "Введите длину последовательности: ";
-    cin >> n;
-
-    cout << "Введите элементы последовательности: ";
-    for (int i = 0; i < n; i++) {
-        cin >> mas[i];
+    vector<int> sequence = {2,8,5,9,12,6,4,3,7,10,11,13,15};
+  cout<<"Sequence:"<<endl;  
+  for(auto i:sequence){
+      cout<<i<<" ";
     }
-
-    for (int i = 1; i < n; i++) {
-        m = 0;
-        for (int k = 0; k < i; k++) {
-            if (mas[k] < mas[i])
-                m = max(len[k], m);
-        }
-        len[i] = m + 1;
-        maxlen = max(maxlen, len[i]);
+  vector<int> longestSubsequence = longest(sequence);
+  
+    cout <<endl<< "Longest:" << endl;
+    for (int num : longestSubsequence) {
+        cout << num << " ";
     }
-
-    // Находим индексы элементов, образующих наибольшую возрастающую подпоследовательность
-    int index = 0;
-    for (int i = 1; i < n; i++) {
-        if (len[i] > len[index])
-            index = i;
-    }
-
-    // Восстановление подпоследовательности
-    subsequence.push_back(mas[index]);
-    int currentLength = len[index] - 1;
-    for (int i = index - 1; i >= 0; i--) {
-        if (mas[i] < mas[index] && len[i] == currentLength) {
-            subsequence.push_back(mas[i]);
-            index = i;
-            currentLength--;
-        }
-    }
-
-    // Вывод подпоследовательности
-    cout << "Наибольшая возрастающая подпоследовательность: ";
-    for (int i = subsequence.size() - 1; i >= 0; i--) {
-        cout << subsequence[i] << " ";
-    }
-
     cout << endl;
-    cout << "Количество элементов, не входящих в подпоследовательность: " << n - maxlen << endl;
 
     return 0;
 }
