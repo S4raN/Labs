@@ -1,65 +1,68 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
-
+#include <ctime>
 using namespace std;
 
-vector<int> longest(const vector<int>& A) {
-    int n = A.size();
-    vector<int> L(n, 1);
-    vector<int> N(n, -1); 
-    int maxLength = 1; 
+// Функция для вывода матрицы
+void printMatrix(vector<vector<double>>& matrix) {
+    for (int i = 0; i < matrix.size(); ++i) {
+        for (int j = 0; j < matrix[i].size(); ++j) {
+            cout << matrix[i][j] << "\t";
+        }
+        cout << endl;
+    }
+}
 
-    for (int i = 1; i < n; ++i) {
-        for (int j = 0; j < i; ++j) {
-            if (A[i] > A[j] && L[i] < L[j] + 1) {
-                L[i] = L[j] + 1;
-                N[i] = j;
-                maxLength = max(maxLength, L[i]);
-                
-             /* cout<<endl<<"L: "<<endl;
-                for(auto i:L){
-                  cout<<i<<" ";}
-              cout<<endl<<"N: "<<endl;
-              for(auto i:N){
-                cout<<i<<" ";}*/
+// Функция для создания единичной матрицы той же размерности
+vector<vector<double>> identityMatrix(int n) {
+    vector<vector<double>> identity(n, vector<double>(n, 0));
+    for (int i = 0; i < n; ++i) {
+        identity[i][i] = 1;
+    }
+    return identity;
+}
+
+// Функция для нахождения обратной матрицы методом Гаусса
+vector<vector<double>> inverseMatrix(vector<vector<double>>& matrix) {
+    int n = matrix.size();
+    vector<vector<double>> identity = identityMatrix(n);
+
+    for (int i = 0; i < n; ++i) {
+        // Приводим главный элемент к 1
+        double pivot = matrix[i][i];
+        for (int j = 0; j < n; ++j) {
+            matrix[i][j] /= pivot;
+            identity[i][j] /= pivot;
+        }
+
+        // Обнуляем остальные элементы в столбце
+        for (int k = 0; k < n; ++k) {
+            if (k != i) {
+                double factor = matrix[k][i];
+                for (int j = 0; j < n; ++j) {
+                    matrix[k][j] -= factor * matrix[i][j];
+                    identity[k][j] -= factor * identity[i][j];
+                }
             }
         }
     }
-  
 
-    int lastIndex = -1;
-    for (int i = 0; i < n; ++i) {
-        if (L[i] == maxLength) {
-            lastIndex = i;
-            break;
-        }
-    }
-
-    vector<int> result;
-    while (lastIndex != -1) {
-        result.push_back(A[lastIndex]);
-        lastIndex = N[lastIndex];
-    }
-
-    reverse(result.begin(), result.end());
-
-    return result;
+    return identity;
 }
 
 int main() {
-    vector<int> sequence = {2,8,5,9,12,6,4,3,7,10,11,13,15};
-  cout<<"Sequence:"<<endl;  
-  for(auto i:sequence){
-      cout<<i<<" ";
-    }
-  vector<int> longestSubsequence = longest(sequence);
-  
-    cout <<endl<< "Longest:" << endl;
-    for (int num : longestSubsequence) {
-        cout << num << " ";
-    }
-    cout << endl;
+    vector<vector<double>> matrix = { {1, 0, 0},
+                                      {0, 1, 0},
+                                      {0, 0, 1}};
+
+    cout << "Original Matrix:" << endl;
+    printMatrix(matrix);
+
+    vector<vector<double>> inverse = inverseMatrix(matrix);
+
+    cout << "\nInverse Matrix:" << endl;
+    printMatrix(inverse);
 
     return 0;
 }
+//метод Гаусса поиска обратной матрицы
